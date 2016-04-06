@@ -1,0 +1,9 @@
+<div class="container">
+	<h2> Show Page <%= link_to "Back", category_path(@category), class: "btn btn-success pull-right" %><%= link_to "Delete", category_book_path(@category,@book), method: :delete, data: { confirm: " Are you sure want to delete? " }, class: "btn btn-success pull-right" %><%= link_to "Edit", edit_category_book_path(@category,@book), class: "btn btn-success pull-right" %></h2><hr/>
+	<div class="col-md-8 col-md-offset-2">
+		<h2 class="text-center" ><u><b><%= @book.title %></b></u></h2>
+		<p><h3><b>Description:</b></h3></p>
+		<p class="description"><%= @book.description %></p>
+		<!--p><h3><b>Category:</b></h3></p-->
+	</div>
+</div>		

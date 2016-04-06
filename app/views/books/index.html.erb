@@ -1,0 +1,21 @@
+<div class="container">
+	<h2>Available Books <%# link_to "Categories", categories_path, class: "btn btn-success pull-right" %>
+	</h2><hr/>
+		<div class="col-md-8 col-md-offset-2">	
+			<table class="table borderless">
+				<tr>
+					<b><th class="sno">S.no</th>
+						<th>Title</th>
+						<th>Category</th>
+					</b>
+				</tr>
+				<% @books.each_with_index do |book,i| %>	
+					<tr>
+						<td class="sno"><%= i+1 %>.</td>	
+						<td class="text-center"><%= link_to book.title, book_path(book, book.category_id) %></td>
+						<td class="text-center"><%= link_to Category.find(book.category_id).name, category_path(book.category_id)%></td>
+					</tr>
+				<% end %>		
+			</table>
+		</div>		
+</div>	

@@ -1,0 +1,18 @@
+<div class="container">
+	<h2>Available Categories
+	<%= link_to "Add Category", new_category_path, class: "btn btn-success pull-right" %><%= link_to "Add Book", new_book_path, class: "btn btn-success pull-right" %></h2><hr/>
+		<div class="col-md-8 col-md-offset-2">	
+			<table class="table borderless">
+				<tr>
+					<b><th class="sno">S.no</th>
+						<th>Category</th></b>
+				</tr>
+				<% @categories.each_with_index do |category,i| %>	
+					<tr>
+						<td class="sno"><%= i+1 %>.</td>	
+						<td class="text-center"><%= link_to category.name, category_path(category), class: "text-center title" %></td>
+					</tr>
+				<% end %>		
+			</table>
+		</div>		
+</div>	

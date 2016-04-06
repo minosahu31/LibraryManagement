@@ -1,0 +1,18 @@
+<div class="container">
+	<h2> Show Page <%= link_to "Back", categories_path, class: "btn btn-success pull-right" %><%= link_to "Delete", category_path(@category), method: :delete, data: { confirm: " Are you sure want to delete? " }, class: "btn btn-success pull-right" %><%= link_to "Edit", edit_category_path(@category), class: "btn btn-success pull-right" %></h2><hr/>
+	<div class="col-md-8 col-md-offset-2">
+		<h2 class="text-center" ><u><b><%= @category.name %></b></u></h2><hr/>
+		<p><h3><b>Available books:</b></h3></p><hr/>
+		<% @category.books.each_with_index do |book,i| %>
+			<p>
+				<%= i+1 %>. <%= link_to book.title, category_book_path(@category,book) %>
+				
+					
+						<%= link_to "Add Book", book_users_path(book), method: :post,class: "btn btn-success pull-right" %>
+						
+				
+			</p><hr/>
+		<% end %>	
+		<!--p><h3><b>Category:</b></h3></p-->
+	</div>
+</div>		
