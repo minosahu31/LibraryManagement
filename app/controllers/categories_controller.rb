@@ -1,10 +1,11 @@
 class CategoriesController < ApplicationController
   before_action :authenticate_user!, except: [:index]		
   before_action :find_category, only: [:show, :edit, :destroy, :update] 
-  #before_action :find_users, except: [:index]
+  before_action :find_user, except: [:index]
 
   def index
   	@categories = Category.all
+    @user = current_user
   end
 
   def show
@@ -50,8 +51,8 @@ class CategoriesController < ApplicationController
   	params.require(:category).permit(:name)
   end
 
-  def find_users
-		@users = User.all
+  def find_user
+		@user = current_user
   end
 
 end

@@ -1,17 +1,22 @@
 Rails.application.routes.draw do
 
-
-  devise_for :users
+  devise_for :users, :controllers => { registrations: 'registrations' }
   
+  #patch "books/book_return"
+
   resources "categories" do
     resources "books"
   end  
 
-  resources "books" do
-    resources "users"
+  resources "users" do
+    resources "books"
   end
 
-
+  resources "books" do
+    member do
+      patch "book_return"
+    end
+  end
   root 'books#index'
 
   # The priority is based upon order of creation: first created -> highest priority.

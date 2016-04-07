@@ -8,7 +8,7 @@
 </head>
 <body>
 
-<nav class="navbar navbar-inverse">	
+<nav class="navbar navbar-inverse navbar-fixed-top">	
 	<div class="container">
 		<div class="navbar-header">
 			<%= link_to "Book categories", categories_path, class: "navbar-brand" %>
@@ -24,10 +24,13 @@
 			<% end %>	
 		</ul>
 	</div>	
-</nav>
-<div class="container text-center">
-	<p class="notice"><%= notice %></p>
-	<p class="alert"><%= alert %></p>
+</nav>	
+<div class="container">	
+	<% if user_signed_in? %>
+		<b class="current-user pull-right">User:<u><%= current_user.email %></u></b>
+	<% end %>
+	<p class="notice  text-center"><%= notice %></p>
+	<p class="alert  text-center"><%= alert %></p>
 </div>
 <%= yield %>
 

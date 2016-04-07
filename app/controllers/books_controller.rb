@@ -1,15 +1,15 @@
 class BooksController < ApplicationController
-	before_action :authenticate_user!
-	#before_action :find_users
-	before_action :find_book, :find_category , only: [ :show, :edit, :update, :destroy] 
+	before_action :authenticate_user!, except: [:index]
+	before_action :find_user, except: [:index]
+	before_action :find_book, only: [ :book_return, :show, :edit, :update, :destroy] 
 	before_action :find_categories_array, only: [:new, :edit]
 
 	def index
 		@books = Book.all
+		@user = current_user
 	end
 
 	def show
-
 	end
 
 	def new
@@ -28,21 +28,38 @@ class BooksController < ApplicationController
 		end	
 	end
 
-	def edit		
+	def edit
 	end
 
-	def update	
-		if @book.update(book_params)
-			redirect_to category_path(@category)
+	def update
+	# raise params.inspect	
+	   @category = @book.category
+		if params[:user_id] == nil
+			if @book.update(book_params)
+				redirect_to books_path
+			else
+				render "edit"
+			end
 		else
-			render "edit"
-		end
+			user = params[:user_id]
+			if @book.update(user_id: user)
+				#redirect_to category_path(@category)
+				redirect_to :back
+			end
+		end		
 	end
 
 	def destroy
-		if Book.destroy(@book)
-			redirect_to category_path(@category)
+		if @book.destroy
+			redirect_to books_path
 		end	
+	end
+
+	def book_return
+		#raise params.inspect
+		if @book.update(user_id: 0)
+			redirect_to books_path
+		end
 	end
 
 	private
@@ -56,16 +73,15 @@ class BooksController < ApplicationController
 	end
 
 	def find_categories_array
-		@categories_array = Category.all.map { |category| [category.name,category.id] } 
+		@categories_array = Category.pluck(:name, :id) 
 	end
 
 	def find_category
-		raise params.inspect
 		@category = Category.find(params[:category_id])
 	end
 
-	def find_users
-		@users = User.all
+	def find_user
+		@user = current_user
 	end
 
 end

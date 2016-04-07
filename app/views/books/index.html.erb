@@ -1,21 +1,81 @@
 <div class="container">
-	<h2>Available Books <%# link_to "Categories", categories_path, class: "btn btn-success pull-right" %>
+	<h2>Available Books 
+		<% if user_signed_in? %>
+			<% if @user.role == "admin" %>
+				<%= link_to "Create Book", new_book_path, class: "btn btn-success pull-right" %>	
+			<% end %>	
+		<% end %>	
 	</h2><hr/>
-		<div class="col-md-8 col-md-offset-2">	
+	<div class="col-md-8 col-md-offset-2">	
+		<table class="table borderless">
+			<tr>
+				<b><th class="sno">S.no</th>
+					<th>Title</th>
+					<th>Category</th>
+					<th>Status</th>
+				</b>
+			</tr>
+			<% @books.each_with_index do |book,i| %>	
+				<tr>
+					<td class="sno"><%= i+1 %>.</td>	
+					<td><%= link_to book.title, book_path(book) %></td>
+					<td><%= link_to book.category.name, category_path(book.category)%></td>
+					<td>
+						<% if user_signed_in? %>
+							<% if @user.role != "admin" %>
+								<% if book.user_id != 0 %>
+									<%= link_to "Booked", books_path, class: "btn btn-danger pull-right"  %>
+								<% else %>	
+									<%= link_to "Add Book", user_book_path(@user,book), method: :put, class: "btn btn-success pull-right"  %>
+								<% end %>
+							<% end %>	
+						<% end %>
+					</td>
+				</tr>
+			<% end %>		
+		</table>
+	</div>
+</div>
+<div class="container">
+	<% if user_signed_in? %>	
+		<h2>Taken Books</h2><hr/>	
+		<div class="col-md-8 col-md-offset-2">
 			<table class="table borderless">
 				<tr>
-					<b><th class="sno">S.no</th>
-						<th>Title</th>
-						<th>Category</th>
-					</b>
-				</tr>
-				<% @books.each_with_index do |book,i| %>	
-					<tr>
-						<td class="sno"><%= i+1 %>.</td>	
-						<td class="text-center"><%= link_to book.title, book_path(book, book.category_id) %></td>
-						<td class="text-center"><%= link_to Category.find(book.category_id).name, category_path(book.category_id)%></td>
-					</tr>
-				<% end %>		
-			</table>
-		</div>		
+					<b>
+						<th class="sno">S.no</th>
+						<th>Book title</th>
+						<th>Booked Date</th>
+						<% if @user.role == "admin" %>
+							<th>User</th>
+							<th>Action</th>
+						<% end %>
+					</b>	
+				</tr>	
+				<% if @user.role == " " %>	
+					<% @user.books.each_with_index do |user_book, i| %>
+						<tr>
+							<td class="sno"><%= i+1 %>.</td>
+							<td class="user_books"><%= user_book.title %></td>
+							<td class="user_books"><%= user_book.updated_at.strftime("%d-%B-%Y") %></td>
+						</tr>	
+					<% end %>
+				<% else %>	
+					<% @books.each_with_index do |book,i| %>
+						<% if book.user != nil %>
+							<tr>
+								<td class="sno"><%= i+1 %>.</td>
+								<td class="user_books"><%= book.title %></td>
+								<td class="user_books"><%= book.updated_at.strftime("%d-%B-%Y") %></td>
+								<td class="user_books"><%= book.user.name %></td>
+								<td>
+									<%= link_to "Return Book", book_return_book_path(book), method: :patch ,class: "btn btn-success pull-right" %>
+								</td>
+							</tr>	
+						<% end %>		
+					<% end %>
+				<% end %>	
+			</table>		
+		</div>	
+	<% end %>	
 </div>	

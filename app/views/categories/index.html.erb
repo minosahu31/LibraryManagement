@@ -1,18 +1,30 @@
 <div class="container">
 	<h2>Available Categories
-	<%= link_to "Add Category", new_category_path, class: "btn btn-success pull-right" %><%= link_to "Add Book", new_book_path, class: "btn btn-success pull-right" %></h2><hr/>
-		<div class="col-md-8 col-md-offset-2">	
-			<table class="table borderless">
+		<% if user_signed_in? %>
+			<% if @user.role == "admin" %>
+				<%= link_to "Add Category", new_category_path, class: "btn btn-success pull-right" %>
+				<%= link_to "Create Book", new_book_path, class: "btn btn-success pull-right" %>
+			<% end %>
+		<% end %>		
+		<%= link_to "Available Books", books_path, class: "btn btn-success pull-right" %>
+	</h2><hr/>
+		
+	<div class="col-md-8 col-md-offset-2">	
+		<table class="table borderless">
+			<tr>
+				 <b>
+				 	<th class="sno">S.no</th>
+					<th class="category">Category</th>
+					<th class="available_books">Available Books</th>
+				 </b>
+			</tr>
+			<% @categories.each_with_index do |category,i| %>	
 				<tr>
-					<b><th class="sno">S.no</th>
-						<th>Category</th></b>
+					<td class="sno"><%= i+1 %>.</td>	
+					<td class="text-center category"><%= link_to category.name, category_path(category), class: "text-center title" %></td>
+					<td class="available_books"><%= category.books.count %></td>
 				</tr>
-				<% @categories.each_with_index do |category,i| %>	
-					<tr>
-						<td class="sno"><%= i+1 %>.</td>	
-						<td class="text-center"><%= link_to category.name, category_path(category), class: "text-center title" %></td>
-					</tr>
-				<% end %>		
-			</table>
-		</div>		
+			<% end %>		
+		</table>
+	</div>		
 </div>	
