@@ -1,12 +1,23 @@
 class BooksController < ApplicationController
+	#layout :append_layout
 	before_action :authenticate_user!, except: [:index]
 	before_action :find_user, except: [:index]
 	before_action :find_book, only: [ :book_return, :show, :edit, :update, :destroy] 
 	before_action :find_categories_array, only: [:new, :edit]
 
-	def index
+	def index 
+		#render file: "/home/sahu/my_rails_work/MessageBoard/app/views/messages/index"
 		@books = Book.all
+		#(Not Working)render js: "alert('Hello Rails');"
+		#render xml: @books
+		#render json: @books
+		#render plain: "OK" 
+		#render inline: "<% @books.each do |b| %><p><%= b.title %></p><% end %>"
 		@user = current_user
+		#(Didn't find any use)render status: 500
+		#render status: :forbidden
+		#render layout: false
+		#(Not working)render xml: photo, location: photo_url("/home/sahu/background1.jpeg")
 	end
 
 	def show
@@ -42,7 +53,8 @@ class BooksController < ApplicationController
 			end
 		else
 			user = params[:user_id]
-			if @book.update(user_id: user)
+			user_book = @book.user_books.new(user_id: user)
+			if user_book.save
 				#redirect_to category_path(@category)
 				redirect_to :back
 			end
@@ -56,8 +68,10 @@ class BooksController < ApplicationController
 	end
 
 	def book_return
-		#raise params.inspect
-		if @book.update(user_id: 0)
+		user_id = params[:user_id] 
+		user_book_id = UserBook.find_by(book_id: @book, user_id: user_id)
+			#raise @user_book_id.inspect
+		if user_book_id.destroy
 			redirect_to books_path
 		end
 	end
@@ -82,6 +96,16 @@ class BooksController < ApplicationController
 
 	def find_user
 		@user = current_user
+	end
+
+	def append_layout
+		if user_signed_in?
+			if current_user == "admin"
+				layout "admin"
+			else
+				layout "user"
+			end		
+		end	
 	end
 
 end

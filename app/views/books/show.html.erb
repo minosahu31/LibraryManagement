@@ -6,10 +6,10 @@
 				<%= link_to "Delete", book_path(@book), method: :delete, data: { confirm: " Are you sure want to delete? " }, class: "btn btn-success pull-right" %>
 				<%= link_to "Edit", edit_book_path(@book), class: "btn btn-success pull-right" %>
 			<% else %>
-				<% if @book.user_id != 0 %>
+				<% if @book.users.present? %>
 					<%= link_to "Booked", books_path, class: "btn btn-danger pull-right"  %>
 				<% else %>	
-					<%= link_to "Add Book", user_book_path(@user,@book), method: :patch, class: "btn btn-success pull-right"  %>
+					<%= link_to "Add Book", user_books_path(@user), method: :patch, class: "btn btn-success pull-right"  %>
 				<% end %>
 			<% end %>
 		<% end %>		

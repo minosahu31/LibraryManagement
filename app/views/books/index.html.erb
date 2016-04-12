@@ -23,7 +23,7 @@
 					<td>
 						<% if user_signed_in? %>
 							<% if @user.role != "admin" %>
-								<% if book.user_id != 0 %>
+								<% if book.users.present? %>
 									<%= link_to "Booked", books_path, class: "btn btn-danger pull-right"  %>
 								<% else %>	
 									<%= link_to "Add Book", user_book_path(@user,book), method: :put, class: "btn btn-success pull-right"  %>
@@ -62,15 +62,19 @@
 					<% end %>
 				<% else %>	
 					<% @books.each_with_index do |book,i| %>
-						<% if book.user != nil %>
+						<% if book.users.present? %>
 							<tr>
 								<td class="sno"><%= i+1 %>.</td>
 								<td class="user_books"><%= book.title %></td>
 								<td class="user_books"><%= book.updated_at.strftime("%d-%B-%Y") %></td>
-								<td class="user_books"><%= book.user.name %></td>
-								<td>
-									<%= link_to "Return Book", book_return_book_path(book), method: :patch ,class: "btn btn-success pull-right" %>
-								</td>
+								<% book.users.each do |user| %>
+									<td class="user_books">
+										<%= user.name %>
+									</td>
+									<td>
+										<%= link_to "Return Book", book_return_user_book_path(user,book), method: :patch, class: "btn btn-success pull-right" %>
+									</td>
+								<% end %>
 							</tr>	
 						<% end %>		
 					<% end %>

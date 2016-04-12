@@ -9,14 +9,19 @@ Rails.application.routes.draw do
   end  
 
   resources "users" do
-    resources "books"
+    resources "books" do
+      member do
+         patch "book_return"
+      end
+    end  
   end
 
-  resources "books" do
-    member do
-      patch "book_return"
-    end
-  end
+  resources "books" 
+  
+  #end
+
+#  resources "user_books"
+
   root 'books#index'
 
   # The priority is based upon order of creation: first created -> highest priority.
