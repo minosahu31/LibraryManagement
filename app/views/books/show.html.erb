@@ -4,7 +4,7 @@
 		<% if user_signed_in? %>
 			<% if @user.role == "admin" %>
 				<%= link_to "Delete", book_path(@book), method: :delete, data: { confirm: " Are you sure want to delete? " }, class: "btn btn-success pull-right" %>
-				<%= link_to "Edit", edit_book_path(@book), class: "btn btn-success pull-right" %>
+				<%= link_to "Edit", edit_book_path(@book), class: "btn btn-success pull-right", remote: true %>
 			<% else %>
 				<% if @book.users.present? %>
 					<%= link_to "Booked", books_path, class: "btn btn-danger pull-right"  %>
@@ -15,10 +15,10 @@
 		<% end %>		
 	</h2><hr/>
 	
-	<div class="col-md-8 col-md-offset-2">
-		<h2 class="text-center" ><%= @book.title %></h2><hr/>
-		<p><h3><u>Description:</u></h3></p>
-		<p class="description"><%= @book.description %></p>
+	<div id="edit-book">	
+	</div>	
+	<div class="col-md-8 col-md-offset-2" id="show-book">
+		<%= render "books/show_book" %>
 	</div>
 
 </div>		

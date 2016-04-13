@@ -8,6 +8,7 @@ class BooksController < ApplicationController
 	def index 
 		#render file: "/home/sahu/my_rails_work/MessageBoard/app/views/messages/index"
 		@books = Book.all
+		@book = Book.new
 		#(Not Working)render js: "alert('Hello Rails');"
 		#render xml: @books
 		#render json: @books
@@ -21,22 +22,20 @@ class BooksController < ApplicationController
 	end
 
 	def show
+		#respond_to do |format|
+		#	format.html
+		#	format.json{ render json: @book.as_json( only: [:id, :title] )}
+	#	end
 	end
 
 	def new
 		@book = Book.new
-		#@category = Category.find(params[:category_id])
 	end
 
 	def create
-		#raise @category.inspect
-		#@category = Category.find(params[:category_id])
-		book = Book.new(book_params)
-		if book.save
-			redirect_to books_path
-		else
-			render "new"
-		end	
+		@book = Book.new(book_params)
+		@book.save
+		@books = Book.all
 	end
 
 	def edit
@@ -46,25 +45,34 @@ class BooksController < ApplicationController
 	# raise params.inspect	
 	   @category = @book.category
 		if params[:user_id] == nil
-			if @book.update(book_params)
-				redirect_to books_path
-			else
-				render "edit"
-			end
+			#if
+			 @book.update(book_params)
+
+			#	redirect_to books_path
+			#else
+			#	render "edit"
+			#end
 		else
 			user = params[:user_id]
 			user_book = @book.user_books.new(user_id: user)
-			if user_book.save
+			present_available_books = @book.present_available_books
+			#raise book_count.inspect
+			if user_book.save && @book.update(present_available_books: present_available_books-1)
+			 #@books = Book.all
 				#redirect_to category_path(@category)
 				redirect_to :back
 			end
 		end		
 	end
 
+	
+
 	def destroy
-		if @book.destroy
+		#if
+		 @book.destroy
+
 			redirect_to books_path
-		end	
+		#end	
 	end
 
 	def book_return

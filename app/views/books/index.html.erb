@@ -1,44 +1,21 @@
 <div class="container">
-	<h2>Available Books 
-		<% if user_signed_in? %>
-			<% if @user.role == "admin" %>
-				<%= link_to "Create Book", new_book_path, class: "btn btn-success pull-right" %>	
-			<% end %>	
-		<% end %>	
-	</h2><hr/>
-	<div class="col-md-8 col-md-offset-2">	
-		<table class="table borderless">
-			<tr>
-				<b><th class="sno">S.no</th>
-					<th>Title</th>
-					<th>Category</th>
-					<th>Status</th>
-				</b>
-			</tr>
-			<% @books.each_with_index do |book,i| %>	
-				<tr>
-					<td class="sno"><%= i+1 %>.</td>	
-					<td><%= link_to book.title, book_path(book) %></td>
-					<td><%= link_to book.category.name, category_path(book.category)%></td>
-					<td>
-						<% if user_signed_in? %>
-							<% if @user.role != "admin" %>
-								<% if book.users.present? %>
-									<%= link_to "Booked", books_path, class: "btn btn-danger pull-right"  %>
-								<% else %>	
-									<%= link_to "Add Book", user_book_path(@user,book), method: :put, class: "btn btn-success pull-right"  %>
-								<% end %>
-							<% end %>	
-						<% end %>
-					</td>
-				</tr>
-			<% end %>		
-		</table>
-	</div>
-</div>
-<div class="container">
+	<!--div id="create_book-main-div">
+		<div class="container">
+			<h2>Adding Book 
+				<%# link_to "Categories", categories_path, class: "btn btn-success pull-right" %>
+				<%# link_to "books", books_path, class: "btn btn-success pull-right" %>
+			</h2><hr/-->
+			<div id="create_book">
+			</div>
+		<!--/div>			
+	</div-->	
+</div>	
+<div class="container" id="books">
+	<%= render "books/books" %>
+</div>	
+<div>
 	<% if user_signed_in? %>	
-		<h2>Taken Books</h2><hr/>	
+		<h2 class="text-center">Taken Books</h2><hr/>	
 		<div class="col-md-8 col-md-offset-2">
 			<table class="table borderless">
 				<tr>

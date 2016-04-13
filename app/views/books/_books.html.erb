@@ -1,0 +1,48 @@
+<h2>Available Books 
+		<% if user_signed_in? %>
+			<% if @user.role == "admin" %>
+				<%= link_to "Create Book", new_book_path, class: "btn btn-success pull-right", remote: true %>	
+			<% end %>	
+		<% end %>	
+	</h2><hr/>
+	<div class="col-md-8 col-md-offset-2">	
+		<table class="table borderless">
+			<tr>
+				<b><th class="sno">S.no</th>
+					<th>Title</th>
+					<th>Category</th>
+					<% if user_signed_in? %>
+						<% if @user.role != "admin" %>
+							<th>Status</th>
+						<% else %>
+							<th>Available Books</th>	
+						<% end %>
+					<% end %>		
+				</b>
+			</tr>
+			<% @books.each_with_index do |book,i| %>	
+				<tr>
+					<td class="sno"><%= i+1 %>.</td>	
+					<td><%= link_to book.title, book_path(book) %></td>
+					<td><%= link_to book.category.name, category_path(book.category)%></td>
+					<td>
+						<% if user_signed_in? %>
+							<% if @user.role != "admin" %>
+								<% if book.present_available_books > 0  %>
+									<% if book.user_books.where(user_id: @user.id).present? %>
+										<%= link_to "Booked", books_path, class: "btn btn-danger pull-right"  %>
+									<% else %>	
+										<%= link_to "Add Book", user_book_path(@user,book), method: :put, class: "btn btn-success pull-right"  %>
+									<% end %>
+								<% else %>
+									<%= link_to "Booked", books_path, class: "btn btn-danger pull-right"  %>
+								<% end %>	
+							<% else %>
+								<%= book.present_available_books %>/<%= book.book_count %>	
+							<% end %>	
+						<% end %>
+					</td>
+				</tr>
+			<% end %>		
+		</table>
+	</div>

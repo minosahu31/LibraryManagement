@@ -18,14 +18,20 @@
 				<%= i+1 %>.
 			    <%= link_to book.title, category_book_path(@category,book) %>			
 				<% if user_signed_in? %>
-					<% if @user.role != "admin" %>	
-						<% if book.user_id != 0 %>
-							<%= link_to "Booked", category_path(@category), class: "btn btn-danger pull-right"  %>
+					<% if @user.role != "admin" %>
+						<% if book.present_available_books > 0  %>
+							<% if book.user_books.where(user_id: @user.id).present? %>
+								<%= link_to "Booked", books_path, class: "btn btn-danger pull-right"  %>
+							<% else %>	
+								<%= link_to "Add Book", user_book_path(@user,book), method: :put, class: "btn btn-success pull-right"  %>
+							<% end %>
 						<% else %>
-							<%= link_to "Add Book", user_book_path(@user,book), method: :patch, class: "btn btn-success pull-right" %>
+							<%= link_to "Booked", books_path, class: "btn btn-danger pull-right"  %>
 						<% end %>	
-					<% end %>
-				<% end %>		
+					<% else %>
+						<%= book.present_available_books %>/<%= book.book_count %>	
+					<% end %>	
+				<% end %>
 			</p><hr/>
 		<% end %>	
 	</div>

@@ -1,5 +1,5 @@
 <h2 class="text-center">Create Book</h2><hr/>
-<%= form_for (@book) do |f|%>
+<%= form_for(@book, remote: true) do |f|%>
 	<% if @book.errors.any? %>
 		<h2><%= pluralize(@book.errors.count, "error") %> prohibited this company from being saved:</h2>
 		<ul>

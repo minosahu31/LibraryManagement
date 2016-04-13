@@ -1,0 +1,1 @@
+json.(book, :id, :title)
