@@ -7,7 +7,8 @@ class BooksController < ApplicationController
 
 	def index 
 		#render file: "/home/sahu/my_rails_work/MessageBoard/app/views/messages/index"
-		@books = Book.all
+		@books = Book.page(params[:page]).per(5)
+		#raise @books.inspect
 		@book = Book.new
 		#(Not Working)render js: "alert('Hello Rails');"
 		#render xml: @books
@@ -22,6 +23,7 @@ class BooksController < ApplicationController
 	end
 
 	def show
+		@books = Book.all
 		#respond_to do |format|
 		#	format.html
 		#	format.json{ render json: @book.as_json( only: [:id, :title] )}

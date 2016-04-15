@@ -4,11 +4,12 @@ class CategoriesController < ApplicationController
   before_action :find_user, except: [:index]
 
   def index
-  	@categories = Category.all
+  	@categories = Category.page(params[:page]).per(5)
     @user = current_user
   end
 
   def show
+    @category_books = @category.books.page(params[:page]).per(5)
   end
 
   def new

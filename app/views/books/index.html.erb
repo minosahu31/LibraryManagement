@@ -1,18 +1,13 @@
 <div class="container">
-	<!--div id="create_book-main-div">
-		<div class="container">
-			<h2>Adding Book 
-				<%# link_to "Categories", categories_path, class: "btn btn-success pull-right" %>
-				<%# link_to "books", books_path, class: "btn btn-success pull-right" %>
-			</h2><hr/-->
-			<div id="create_book">
-			</div>
-		<!--/div>			
-	</div-->	
+	<div id="create_book">
+	</div>
 </div>	
 <div class="container" id="books">
 	<%= render "books/books" %>
-</div>	
+</div>
+<div class="container text-center">
+	<hr/>	<%= paginate @books %><hr/>
+</div>		
 <div>
 	<% if user_signed_in? %>	
 		<h2 class="text-center">Taken Books</h2><hr/>	

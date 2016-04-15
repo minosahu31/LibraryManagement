@@ -1,3 +1,12 @@
+<div class="container text-center">	
+<% if user_signed_in? %>
+	<% if @user.books.count > 4 %>
+		<% if @user.role != "admin" %>
+			<b class="alert " style="color:red">To take another book, you have to submit already taken books.</b>
+		<% end %>
+	<% end %>
+<% end %>			
+</div>
 <h2>Available Books 
 		<% if user_signed_in? %>
 			<% if @user.role == "admin" %>
@@ -13,7 +22,9 @@
 					<th>Category</th>
 					<% if user_signed_in? %>
 						<% if @user.role != "admin" %>
-							<th>Status</th>
+							<% if @user.books.count <= 4 %>
+								<th>Status</th>
+							<% end %>	
 						<% else %>
 							<th>Available Books</th>	
 						<% end %>
@@ -25,23 +36,25 @@
 					<td class="sno"><%= i+1 %>.</td>	
 					<td><%= link_to book.title, book_path(book) %></td>
 					<td><%= link_to book.category.name, category_path(book.category)%></td>
-					<td>
 						<% if user_signed_in? %>
-							<% if @user.role != "admin" %>
-								<% if book.present_available_books > 0  %>
-									<% if book.user_books.where(user_id: @user.id).present? %>
+							<% if @user.books.count <= 4 %>
+							<td>
+								<% if @user.role != "admin" %>
+									<% if book.present_available_books > 0  %>
+										<% if book.user_books.where(user_id: @user.id).present? %>
+											<%= link_to "Booked", books_path, class: "btn btn-danger pull-right"  %>
+										<% else %>	
+											<%= link_to "Add Book", user_book_path(@user,book), method: :put, class: "btn btn-success pull-right"  %>
+										<% end %>
+									<% else %>
 										<%= link_to "Booked", books_path, class: "btn btn-danger pull-right"  %>
-									<% else %>	
-										<%= link_to "Add Book", user_book_path(@user,book), method: :put, class: "btn btn-success pull-right"  %>
-									<% end %>
+									<% end %>						
 								<% else %>
-									<%= link_to "Booked", books_path, class: "btn btn-danger pull-right"  %>
-								<% end %>	
-							<% else %>
-								<%= book.present_available_books %>/<%= book.book_count %>	
+									<%= book.present_available_books %>/<%= book.book_count %>	
+								<% end %>
+							</td>
 							<% end %>	
 						<% end %>
-					</td>
 				</tr>
 			<% end %>		
 		</table>

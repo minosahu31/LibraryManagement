@@ -1,5 +1,6 @@
 source 'https://rubygems.org'
 
+gem 'kaminari', '~> 0.16.3'
 #Bootstrap-sass gem
 gem 'bootstrap-sass', '~> 3.3.6'
 #devise gem
