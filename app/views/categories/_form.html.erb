@@ -1,8 +1,8 @@
 <h2 class="text-center">Create Category</h2><hr/>
 <%= form_for @category do |f|%>
 	<% if @category.errors.any? %>
-		<h2><%= pluralize(@category.errors.count, "error") %> prohibited this company from being saved:</h2>
-		<ul>
+		<h3 class="errors"><%= pluralize(@category.errors.count, "error") %> prohibited this company from being saved:</h2>
+		<ul class="errors">
 			<% @category.errors.full_messages.each do |msg| %>
 				<li><%= msg %></li>
 			<% end %>

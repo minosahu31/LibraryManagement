@@ -1,52 +1,54 @@
-<div class="container text-center">	
-<% if user_signed_in? %>
-	<% if @user.books.count > 4 %>
-		<% if @user.role != "admin" %>
-			<b class="alert " style="color:red">To take another book, you have to submit already taken books.</b>
-		<% end %>
-	<% end %>
-<% end %>			
-</div>
-<div class="container">
-	<h2> Show Page 
-		<%= link_to "Categories", categories_path, class: "btn btn-success pull-right" %>
-		<%= link_to "books", books_path, class: "btn btn-success pull-right" %>
-		<% if user_signed_in? %>
-			<% if @user.role == "admin" %>		
-				<%= link_to "Delete", category_path(@category), method: :delete, data: { confirm: " Are you sure want to delete? " }, class: "btn btn-success pull-right" %>
-				<%= link_to "Edit", edit_category_path(@category), class: "btn btn-success pull-right" %>
+<div class="container container1">
+	<div class="container text-center">	
+	<% if user_signed_in? %>
+		<% if @user.books.count > 4 %>
+			<% if @user.role != "admin" %>
+				<b class="alert " style="color:red">To take another book, you have to submit already taken books.</b>
 			<% end %>
-		<% end %>		
-	</h2><hr/>
-	
-	<div class="col-md-8 col-md-offset-2">
-		<h2 class="text-center" ><u><b><%= @category.name %></b></u></h2>
-		<p><h3><b>Available books:</b></h3></p><hr/>
-		<% @category.books.each_with_index do |book,i| %>
-			<p>
-				<%= i+1 %>.
-			    <%= link_to book.title, category_book_path(@category,book) %>			
-				<% if user_signed_in? %>
-					<% if @user.books.count <= 4 %>
-						<% if @user.role != "admin" %>			
-							<% if book.present_available_books > 0  %>
-								<% if book.user_books.where(user_id: @user.id).present? %>
-									<%= link_to "Booked", books_path, class: "btn btn-danger pull-right"  %>
-								<% else %>	
-									<%= link_to "Add Book", user_book_path(@user,book), method: :put, class: "btn btn-success pull-right"  %>
-								<% end %>
-							<% else %>
-								<%= link_to "Booked", books_path, class: "btn btn-danger pull-right"  %>
-							<% end %>
-						<% end %>	
-					<% end %>		
-				<% end %>	
-			</p><hr/>
-		<% end %>	
+		<% end %>
+	<% end %>			
 	</div>
-</div>		
-<div class="container text-center">
-	<div class="pagination">
-		<%= paginate @category_books %>
-	</div>	
-</div>
+	<div class="container">
+		<h2> Show Page 
+			<%= link_to "Categories", categories_path, class: "btn btn-success pull-right" %>
+			<%= link_to "books", books_path, class: "btn btn-success pull-right" %>
+			<% if user_signed_in? %>
+				<% if @user.role == "admin" %>		
+					<%= link_to "Delete", category_path(@category), method: :delete, data: { confirm: " Are you sure want to delete? " }, class: "btn btn-success pull-right" %>
+					<%= link_to "Edit", edit_category_path(@category), class: "btn btn-success pull-right" %>
+				<% end %>
+			<% end %>		
+		</h2><hr/>
+		
+		<div class="col-md-8 col-md-offset-2">
+			<h2 class="text-center" ><u><b><%= @category.name %></b></u></h2>
+			<p><h3><b>Available books:</b></h3></p><hr/>
+			<% @category.books.each_with_index do |book,i| %>
+				<p>
+					<%= i+1 %>.
+				    <%= link_to book.title, category_book_path(@category,book) %>			
+					<% if user_signed_in? %>
+						<% if @user.books.count <= 4 %>
+							<% if @user.role != "admin" %>			
+								<% if book.present_available_books > 0  %>
+									<% if book.user_books.where(user_id: @user.id).present? %>
+										<%= link_to "Booked", books_path, class: "btn btn-danger pull-right"  %>
+									<% else %>	
+										<%= link_to "Add Book", user_book_path(@user,book), method: :put, class: "btn btn-success pull-right"  %>
+									<% end %>
+								<% else %>
+									<%= link_to "Booked", books_path, class: "btn btn-danger pull-right"  %>
+								<% end %>
+							<% end %>	
+						<% end %>		
+					<% end %>	
+				</p><hr/>
+			<% end %>	
+		</div>
+	</div>		
+	<div class="container text-center">
+		<div class="pagination">
+			<%= paginate @category_books %>
+		</div>	
+	</div>
+</div>	

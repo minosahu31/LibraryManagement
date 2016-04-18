@@ -1,45 +1,47 @@
-<div class="container text-center">	
-<% if user_signed_in? %>
-	<% if @user.books.count > 4 %>
-		<% if @user.role != "admin" %>
-			<b class="alert " style="color:red">To take another book, you have to submit already taken books.</b>
-		<% end %>
-	<% end %>
-<% end %>			
-</div>
-<div class="container">
-	<h2> Show Page 
-		<%= link_to "Back", books_path, class: "btn btn-success pull-right" %>
-		<% if user_signed_in? %>
-			<% if @user.role == "admin" %>
-				<%= link_to "Delete", book_path(@book), method: :delete, data: { confirm: " Are you sure want to delete? " }, class: "btn btn-success pull-right" %>
-				<%= link_to "Edit", edit_book_path(@book), class: "btn btn-success pull-right", remote: true %>
-			<% else %>
-				<% if @user.books.count <= 4 %>
-					<% if @book.users.present? %>
-						<%= link_to "Booked", books_path, class: "btn btn-danger pull-right"  %>
-					<% else %>	
-					  <%= link_to "Add Book", user_books_path(@user), method: :patch, class: "btn btn-success pull-right"  %>
-					<% end %>
-				<% end %>	
+<div class="container container1">
+	<div class="container text-center">	
+	<% if user_signed_in? %>
+		<% if @user.books.count > 4 %>
+			<% if @user.role != "admin" %>
+				<b class="alert " style="color:red">To take another book, you have to submit already taken books.</b>
 			<% end %>
-		<% end %>		
-	</h2><hr/>
-	<div id="edit-book">	
-	</div>
-	<ul class="pager">
-		<% if @books.first.id < @book.id %>
-			<li class="previous"><%= link_to "Previous", book_path(@books.where("id < ?", @book).last) %></li>
-		<% else %>	
-			<li class="previous disabled"><%= link_to "Previous" %></li>
 		<% end %>
-		<% if  @books.last.id > @book.id %>	
-			<li class="next"><%= link_to "Next",book_path(@books.where("id > ?", @book).first) %></li>
-		<% else %>	
-			<li class="next disabled"><%= link_to "Next" %></li>
-		<% end %>	
-	</ul>	
-	<div class="col-md-8 col-md-offset-2" id="show-book">
-		<%= render "books/show_book" %>
+	<% end %>			
 	</div>
-</div>	
+	<div class="container">
+		<h2> Show Page 
+			<%= link_to "Back", books_path, class: "btn btn-success pull-right" %>
+			<% if user_signed_in? %>
+				<% if @user.role == "admin" %>
+					<%= link_to "Delete", book_path(@book), method: :delete, data: { confirm: " Are you sure want to delete? " }, class: "btn btn-success pull-right" %>
+					<%= link_to "Edit", edit_book_path(@book), class: "btn btn-success pull-right", remote: true %>
+				<% else %>
+					<% if @user.books.count <= 4 %>
+						<% if @book.users.present? %>
+							<%= link_to "Booked", books_path, class: "btn btn-danger pull-right"  %>
+						<% else %>	
+						  <%= link_to "Add Book", user_books_path(@user), method: :patch, class: "btn btn-success pull-right"  %>
+						<% end %>
+					<% end %>	
+				<% end %>
+			<% end %>		
+		</h2><hr/>
+		<div id="edit-book">	
+		</div>
+		<ul class="pager">
+			<% if @books.first.id < @book.id %>
+				<li class="previous"><%= link_to "Previous", book_path(@books.where("id < ?", @book).last) %></li>
+			<% else %>	
+				<li class="previous disabled"><%= link_to "Previous" %></li>
+			<% end %>
+			<% if  @books.last.id > @book.id %>	
+				<li class="next"><%= link_to "Next",book_path(@books.where("id > ?", @book).first) %></li>
+			<% else %>	
+				<li class="next disabled"><%= link_to "Next" %></li>
+			<% end %>	
+		</ul>	
+		<div class="col-md-8 col-md-offset-2" id="show-book">
+			<%= render "books/show_book" %>
+		</div>
+	</div>	
+</div>

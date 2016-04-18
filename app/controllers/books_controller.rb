@@ -36,8 +36,12 @@ class BooksController < ApplicationController
 
 	def create
 		@book = Book.new(book_params)
-		@book.save
-		@books = Book.all
+		if @book.save
+			@books = Book.all
+		else
+			@categories_array = Category.pluck(:name, :id)
+			render "new"
+		end	
 	end
 
 	def edit

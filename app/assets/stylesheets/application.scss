@@ -24,10 +24,31 @@ body{
 	padding-top: 60px;
 }
 
+.navbar-inverse .navbar-brand {
+    color: #2ED22E;
+}
+
+.navbar-inverse .navbar-nav > li > a {
+    color: #2ED22E;
+}
+
+label{
+    color: #2ED22E;
+}
+
+h1{
+	color: #2ED22E;
+}
+
+.container1{
+	background-color:rgba(255, 255, 255, 0.07);
+	padding-bottom: 200px;
+}
+
 a{
 	margin-left: 5px;
 	text-decoration: none;
-	color: rgb(92, 184, 92);
+	color: #2ED22E;
 	font-size: 20px;
 }
 
@@ -45,7 +66,14 @@ a:hover{
     text-align: center;
 }
 .table > tbody > tr > td {	
-	color: rgb(92, 184, 92);
+	color: #2ED22E;
+}
+
+.btn-success {
+    color: #fff;
+    background-color: #2ED22E;
+    border-color: #4cae4c;
+    margin-right: 3px;
 }
 
 th, td{
@@ -96,4 +124,10 @@ p{
 }
 .show-paginator{
 	margin-top: 30px;	
+}
+.errors{
+	color: rgb(226, 101, 101);
+}
+#error_explanation{
+	color: rgb(226, 101, 101);
 }
